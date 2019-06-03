@@ -163,8 +163,6 @@ class ImageContainer extends React.Component {
         return { ...image, clicked: false };
       });
       const shuffledimages = _.shuffle(restartImages);
-      console.log(shuffledimages);
-      console.log(this.state.images);
       this.setState({ ...this.state, images: shuffledimages, score: newScore });
     }
 
