@@ -140,6 +140,7 @@ class ImageContainer extends React.Component {
     e.stopPropagation();
     const { images } = this.state;
     let newScore;
+    let newTopScore;
     const matchSrc = e.target.src;
     const imageMap = images.map(image => {
       if (matchSrc === image.src) {
@@ -152,18 +153,34 @@ class ImageContainer extends React.Component {
       if (matchSrc === image.src) return image;
     });
 
-    const { score } = this.state;
+    const { score, topScore } = this.state;
     if (!checkScore[0].clicked) {
       const shuffledimages = _.shuffle(imageMap);
       newScore = score + 1;
-      this.setState({ ...this.state, images: shuffledimages, score: newScore });
+      if (newScore > topScore) {
+        newTopScore = topScore + 1;
+      } else {
+        newTopScore = topScore;
+      }
+      this.setState({
+        ...this.state,
+        images: shuffledimages,
+        score: newScore,
+        topScore: newTopScore
+      });
     } else {
       newScore = 0;
+      newTopScore = this.state.topScore;
       const restartImages = images.map(image => {
         return { ...image, clicked: false };
       });
       const shuffledimages = _.shuffle(restartImages);
-      this.setState({ ...this.state, images: shuffledimages, score: newScore });
+      this.setState({
+        ...this.state,
+        images: shuffledimages,
+        score: newScore,
+        topScore: newTopScore
+      });
     }
 
     //NOW DO SOME LOGIC TO UPDATE THE SCORE
